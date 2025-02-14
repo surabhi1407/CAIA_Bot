@@ -1,4 +1,4 @@
-```markdown
+
 #  CAIA Module 4 Chatbot
 
 A simple chatbot powered by **LangChain** and **FAISS** that helps users understand topics from **CAIA Module 4: Advanced AI Applications and Ethics**. 
