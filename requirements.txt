@@ -4,3 +4,4 @@ langchain-openai
 unstructured
 pypdf
 faiss-cpu
+python-dotenv

@@ -29,7 +29,7 @@ Create a `.streamlit/secrets.toml` file:
 OPENAI_API_KEY = "your-api-key"
 ```
 
-### 4️⃣ Run the app
+### Run the app
 ```bash
 streamlit run app.py
 ```
