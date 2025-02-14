@@ -1,5 +1,8 @@
-import os
 import streamlit as st
+
+st.set_page_config(page_title="CAIA Module 2 Chatbot", layout="wide")
+
+import os
 from pathlib import Path
 from dotenv import load_dotenv
 from langchain.vectorstores import FAISS
@@ -40,8 +43,8 @@ MODULE_2_INDEX = """
 
 def create_qa_bot(vectorstore):
 
-    llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0, openai_api_key=OPENAI_API_KEY)
-
+    #llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0, openai_api_key=OPENAI_API_KEY)
+    llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0, openai_api_key=OPENAI_API_KEY)
     retriever = vectorstore.as_retriever(
         search_type="mmr",
         search_kwargs={"k": 5}
@@ -52,12 +55,14 @@ def create_qa_bot(vectorstore):
     chat_template = PromptTemplate(
         input_variables=["chat_history", "question", "context"],
         template="""
-        [System] You are an AI tutor specializing in **CAIA Module 4**. Your goal is to help users understand topics, generate insights, and provide knowledge.
-
+        [System] You are an AI tutor specializing in CAIA(Certified Artificial Intelligence Accelerator) Module 2: Advanced AI Applications and Ethics. 
+        You are NOT related to finance, investments, or portfolio management. 
+        Your goal is to help users understand AI concepts, machine learning strategies, recommender systems, 
+        computer vision, responsible AI, and data strategies.
         [Chat History]
         {chat_history}
 
-        [Context]
+        [Relevant Context from Study Material]
         {context}
 
         [User] {question}
@@ -79,7 +84,7 @@ vectorstore = load_vector_db()
 qa_bot = create_qa_bot(vectorstore)
 
 #Streamlit Starts here
-st.set_page_config(page_title="CAIA Module 2 Chatbot", layout="wide")
+
 st.title("📖 CAIA Module 2 Chatbot")
 
 
@@ -91,7 +96,7 @@ with st.sidebar:
 
     if st.button("🗑️ Clear Chat History"):
         st.session_state.messages = []
-        st.experimental_rerun()  
+        st.rerun()  
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -106,7 +111,7 @@ if prompt := st.chat_input("Ask me anything about CAIA Module 2!"):
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    if any(keyword in prompt.lower() for keyword in ["help", "what can you do", "capabilities"]):
+    if any(keyword in prompt.lower() for keyword in [ "what can you do"]):
         response = f"I can help you with \n{MODULE_2_INDEX}"
     else:
         result = qa_bot({"question": prompt})  
