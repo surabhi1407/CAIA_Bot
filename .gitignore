@@ -2,6 +2,13 @@
 .env
 .streamlit/secrets.toml
 
+# Ignore virtual environments
+venv/
+env/
+.venv/
+.env/
+travel_bot_env/
+
 # Ignore Python cache
 __pycache__/
 *.pyc
